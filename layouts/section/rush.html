@@ -9,17 +9,17 @@
   {{ range .Data.Pages.GroupByDate "Monday, January 2" "asc"}}
     {{ $.Scratch.Set "displayDate" false }} 
     {{ range .Pages }}
-      {{ if not (ge .Date.Unix now.Unix)}}
-        <!--display the date if no current events-->
+      {{ if ge .Date.Unix now.Unix}}
+        <!--only display the date if there are current events-->
         {{ $.Scratch.Set "displayDate" true }}
-        <!--rendering expired events-->
-        {{ $.Scratch.Set "displayOld" true }}
+        <!--stop rendering expired events-->
+        {{ $.Scratch.Set "displayOld" false }}
       {{ end }}
     {{ end }}
     {{ if $.Scratch.Get "displayDate" }}
       <h2 class="list-key">{{ .Key }}</h2>
       {{ range .Pages }}
-        {{ if ge .Date.Unix now.Unix}}
+        {{ if lt .Date.Unix now.Unix}}
           {{ partial "rush-event-list-entry.html" . }}
         {{ end }}
       {{ end }}
