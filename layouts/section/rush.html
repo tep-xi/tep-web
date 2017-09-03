@@ -7,13 +7,13 @@
   </div>
 
   {{ range .Data.Pages.GroupByDate "Monday, January 2" "asc"}}
-    {{ $.Scratch.Set "displayDate" true }} 
+    {{ $.Scratch.Set "displayDate" false }} 
     {{ range .Pages }}
       {{ if not (ge .Date.Unix now.Unix)}}
         <!--always display the date even if there are no current events-->
-        <!--{{ $.Scratch.Set "displayDate" false }}-->
+        {{ $.Scratch.Set "displayDate" true }}
         <!--not rendering expired events-->
-        <!--{{ $.Scratch.Set "displayOld" true }}-->
+        {{ $.Scratch.Set "displayOld" false }}
       {{ end }}
     {{ end }}
     {{ if $.Scratch.Get "displayDate" }}
